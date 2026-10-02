@@ -51,4 +51,7 @@ if clone_repo "ai-agent-tools" "bin/html2md" "共有ツールは $tools_bin に�
 		echo "CLAUDE_ENV_FILE が無いため、$tools_bin を PATH に入れられませんでした。共有ツールはフルパスで呼ぶこと。"
 	fi
 fi
+
+# author は ai-agent-rules から読むので、clone の後に呼ぶ（SessionStart の hooks を並べると同時に走る）
+bash "$(dirname "$0")/set-git-author.sh" || true
 exit 0

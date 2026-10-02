@@ -8,9 +8,9 @@
 
 ## 運用
 
-### 1. クラウドセッションでの共通ルール・共有ツールの取得
+### 1. クラウドセッションの開始時の準備
 
-クラウド（Claude Code on the web）のセッションは毎回新しい環境で始まるため、`AGENTS.md` が参照する `../ai-agent-rules/` も、`html2md` 等の共有ツールも無い。**SessionStart フックで、セッションの開始時に clone し、共有ツールを PATH に入れる**。
+クラウド（Claude Code on the web）のセッションは毎回新しい環境で始まるため、`AGENTS.md` が参照する `../ai-agent-rules/` も、`html2md` 等の共有ツールも無い。**SessionStart フックで、セッションの開始時に clone し、共有ツールを PATH に入れ、git の author を設定する**。
 
 #### 値
 
@@ -22,7 +22,8 @@
 | PATH | `../ai-agent-tools/bin` | `CLAUDE_ENV_FILE` に書き、セッション中のコマンドに効かせる |
 | 動く条件 | `CLAUDE_CODE_REMOTE` が `true` | ローカルでは何もしない |
 | 履歴 | `--depth 1` | 使うだけなので履歴は要らない |
-| スクリプト | `tools/10_setup/clone-ai-agent-repos.sh` | `.claude/settings.json` の `SessionStart` から呼ぶ |
+| git の author | `ai-agent-rules` の最新コミットの author | このリポジトリの `.git/config` にだけ書く。環境変数 `GIT_AUTHOR_NAME`・`GIT_AUTHOR_EMAIL` があればそちらが勝つので何もしない |
+| スクリプト | `tools/10_setup/clone-ai-agent-repos.sh` | `.claude/settings.json` の `SessionStart` から呼ぶ。最後に `set-git-author.sh` を呼ぶ |
 
 #### 決めごと
 
@@ -31,6 +32,8 @@
 - **clone に失敗してもセッションは止めない**。失敗したことをフックの出力で伝え、ユーザーに報告する
 - **共有ツールの `bin/` のうち、拡張子の無いもの（sh 版）に実行権限を付ける**。Windows で commit されたため、clone しただけでは権限が無く `Permission denied` になる。clone 側は `core.fileMode false` にし、権限の差を変更として出さない
 - **Linux で動くのは拡張子の無いものだけ**。`.cmd`・`.ps1` は Windows 用。`html2md`・`check-public`・`check-markdown`・`convert-encoding`・`text`・`psls` の起動は確かめた
+- **author の値はファイルにも出力にも書かない**。`settings.json` の `env` に書くと commit されて残るため、実行のたびに `ai-agent-rules` から読む。クラウドの環境は既定で author が Claude になっている
+- **author の設定は clone の後に、同じスクリプトから呼ぶ**。`SessionStart` の hooks を並べると同時に走り、`ai-agent-rules` がまだ無いことがある
 - **スクリプトは `.claude/hooks/` ではなく `tools/10_setup/` に置く**。共通ルールの「.gitignore の共通除外設定」では `.claude/` 配下で共有するのは `settings.json`・`commands/`・`agents/`・`skills/` だけで、`hooks/` は除外される
 
 ### 2. AGENTS.md に共通ルールの参照も置く
