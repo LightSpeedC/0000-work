@@ -1,0 +1,14 @@
+{
+	"hooks": {
+		"SessionStart": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash \"$CLAUDE_PROJECT_DIR/tools/10_setup/clone-ai-agent-repos.sh\""
+					}
+				]
+			}
+		]
+	}
+}
