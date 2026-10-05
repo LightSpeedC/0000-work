@@ -2,7 +2,7 @@
 
 このプロジェクトでだけ通る決めごと。全プロジェクトに通ることは共通ルールに置き、ここには書かない。
 
-> 📅 作成: 2026-10-02 / 更新: 2026-10-02
+> 📅 作成: 2026-10-02 / 更新: 2026-10-05
 
 [^^](../../README.md)
 
@@ -10,7 +10,7 @@
 
 ### 1. クラウドセッションの開始時の準備
 
-クラウド（Claude Code on the web）のセッションは毎回新しい環境で始まるため、`AGENTS.md` が参照する `../ai-agent-rules/` も、`html2md` 等の共有ツールも無い。**SessionStart フックで、セッションの開始時に clone し、共有ツールを PATH に入れ、git の author を設定する**。
+クラウド（Claude Code on the web）のセッションは毎回新しい環境で始まるため、`AGENTS.md` が参照する `../ai-agent-rules/` も、`html2md` 等の共有ツールも無い。**SessionStart フックで、セッションの開始時に clone（日が変わっていれば更新）し、共有ツールを PATH に入れ、git の author を設定する**。
 
 #### 値
 
@@ -22,12 +22,17 @@
 | PATH | `../ai-agent-tools/bin` | `CLAUDE_ENV_FILE` に書き、セッション中のコマンドに効かせる |
 | 動く条件 | `CLAUDE_CODE_REMOTE` が `true` | ローカルでは何もしない |
 | 履歴 | `--depth 1` | 使うだけなので履歴は要らない |
+| 更新 | 日（JST）が変わっていれば `fetch` ＋ `rebase` | セッションの開始・再開のとき。記録は `.git/last-update-date` |
 | git の author | `ai-agent-rules` の最新コミットの author | このリポジトリの `.git/config` にだけ書く。環境変数 `GIT_AUTHOR_NAME`・`GIT_AUTHOR_EMAIL` があればそちらが勝つので何もしない |
 | スクリプト | `tools/10_setup/clone-ai-agent-repos.sh` | `.claude/settings.json` の `SessionStart` から呼ぶ。最後に `set-git-author.sh` を呼ぶ |
 
 #### 決めごと
 
-- **既にあれば clone しない**。pull もしない。クラウドのセッションは毎回 clone し直すので、常に最新になる。有無は `common-rules.md`・`bin/html2md` で見る
+- **既にあれば clone しない**。有無は `common-rules.md`・`bin/html2md` で見る
+- **日が変わっていれば、`ai-agent-rules` と `ai-agent-tools` を fetch して rebase する**。同じ環境のままセッションを再開すると、clone し直されず古いまま残るため。日付は JST で見る
+- **最後に取得・更新した日は、各リポジトリの `.git/last-update-date` に記録する**。git 管理外なので、置き場の作業ツリーを汚さない
+- **未 commit の変更があれば更新しない**。消さずに報告する。fetch・rebase に失敗したときは rebase を中止して元に戻し、古いまま使って報告する
+- **更新はセッションの開始・再開のときだけ**。日をまたいで続けているセッションでは走らない
 - **置き場に目印のファイルが無いものがあれば、消さずに報告する**
 - **clone に失敗してもセッションは止めない**。失敗したことをフックの出力で伝え、ユーザーに報告する
 - **共有ツールの `bin/` のうち、拡張子の無いもの（sh 版）に実行権限を付ける**。Windows で commit されたため、clone しただけでは権限が無く `Permission denied` になる。clone 側は `core.fileMode false` にし、権限の差を変更として出さない
