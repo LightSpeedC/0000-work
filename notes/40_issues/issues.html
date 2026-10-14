@@ -297,6 +297,33 @@
 	</details>
 </section>
 
+<div class="groupbar">
+	<h2>クラウドの Obsidian Vault（2026-10-14）</h2>
+	<p class="count">1 件 / 未 1 / 着手 0 / 済 0</p>
+</div>
+
+<section class="ch02">
+	<details class="md-flat" open>
+	<summary><h1><code class="no">i261014-02</code> クラウドのセッションで Obsidian Vault を毎回使える形にする <span class="badge b-none">未</span></h1></summary>
+
+	<p>2026-10-14 に、このセッションへ <code>LightSpeedC/ObsidianVault</code>（非公開）を書き込みもできる形で追加し、プロジェクトの隣の <code>ObsidianVault/</code> に clone した。<strong>このセッションだけで使える状態</strong>で、新しいセッションには引き継がれない。</p>
+	<ul>
+		<li><strong>取得</strong>: 非公開なので、セッションに Vault を追加していないと clone できない。<code>cloud-session-start</code> は Vault を取らない</li>
+		<li><strong>メモリの読み込み</strong>: Windows ではセッション開始時のフックが <code>memory/!memory.md</code> を読み込ませている（共通ルール「Obsidianメモリ連携ルール」）。クラウドにはこのフックが無い</li>
+		<li><strong>置き場</strong>: 追加したときの既定の clone 先は小文字の <code>obsidianvault</code> で、隣に置いた <code>ObsidianVault/</code> はセッションへの登録を拒否された。Vault に <code>CLAUDE.md</code> は無いので実害は無い。大小だけが違う名前を作らないため、<code>ObsidianVault/</code> のままにする</li>
+		<li><strong>書き戻し</strong>: メモリを更新したら commit・push が要る。<code>0000-work</code> の Stop フックの扱いは Vault には及ばないので、共通ルールどおり明示を待つ</li>
+	</ul>
+	<p><strong>直し方の案</strong>（提案中）: <code>cloud-session-start</code> に、Vault が追加されていれば clone し、無ければ何もしない処理と、<code>memory/!memory.md</code> を出力に載せる処理を足す。変更先は <code>ai-agent-tools</code> と共通ルール「クラウド作業のルール」。</p>
+
+	<p><strong>やること</strong></p>
+	<ul>
+		<li><span class="badge b-none">未</span> 取得とメモリの読み込みを、自動にするか手動にするか決める</li>
+		<li><span class="badge b-none">未</span> 自動なら <code>cloud-session-start</code> に足し、Vault を追加したセッションと、していないセッションの両方で確かめる</li>
+		<li><span class="badge b-none">未</span> 決まった扱いを共通ルール「クラウド作業のルール」に書く</li>
+	</ul>
+	</details>
+</section>
+
 </div>
 
 <footer>
