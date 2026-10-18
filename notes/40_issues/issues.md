@@ -2,7 +2,7 @@
 
 これから解決することを記録する。
 
-> 📅 作成: 2026-10-14 / 更新: 2026-10-14
+> 📅 作成: 2026-10-14 / 更新: 2026-10-18
 
 [トップへ戻る](../../README.md)
 
@@ -36,11 +36,12 @@
 
 ### `i261014-02` クラウドのセッションで Obsidian Vault を毎回使える形にする ⬜ **未**
 
-2026-10-14 に、このセッションへ `LightSpeedC/ObsidianVault`（非公開）を書き込みもできる形で追加し、プロジェクトの隣の `ObsidianVault/` に clone した。**このセッションだけで使える状態**で、新しいセッションには引き継がれない。
+2026-10-14 に、このセッションへ Vault（非公開）を書き込みもできる形で追加し、プロジェクトの隣に clone した。2026-10-18 に GitHub 上でリポジトリ名が `ObsidianVault` から `ai-obsidian-vault` に変わったため、新しい名前で追加し直し、接続先と置き場を `ai-obsidian-vault/` に揃えた。**このセッションだけで使える状態**で、新しいセッションには引き継がれない。
 
 - **取得**: 非公開なので、セッションに Vault を追加していないと clone できない。`cloud-session-start` は Vault を取らない
 - **メモリの読み込み**: Windows ではセッション開始時のフックが `memory/!memory.md` を読み込ませている（共通ルール「Obsidianメモリ連携ルール」）。クラウドにはこのフックが無い
-- **置き場**: 追加したときの既定の clone 先は小文字の `obsidianvault` で、隣に置いた `ObsidianVault/` はセッションへの登録を拒否された。Vault に `CLAUDE.md` は無いので実害は無い。大小だけが違う名前を作らないため、`ObsidianVault/` のままにする
+- **置き場**: 隣の `ai-obsidian-vault/`。リポジトリ名が小文字だけになり、セッションの既定の clone 先と一致したので、セッションへの登録も通る（旧名 `ObsidianVault/` のときは、既定の `obsidianvault` と大小が違い、拒否されていた）
+- **Vault 自身のルール**: Vault には `AGENTS.md` と `rules/local-rules.md` があり、cron での commit・push や chat の待受けを決めている。クラウドで Vault を扱うときに、どこまで当てはめるかも決める
 - **書き戻し**: メモリを更新したら commit・push が要る。`0000-work` の Stop フックの扱いは Vault には及ばないので、共通ルールどおり明示を待つ
 
 **直し方の案**（提案中）: `cloud-session-start` に、Vault が追加されていれば clone し、無ければ何もしない処理と、`memory/!memory.md` を出力に載せる処理を足す。変更先は `ai-agent-tools` と共通ルール「クラウド作業のルール」。
