@@ -2,7 +2,7 @@
 
 このプロジェクトでだけ通る決めごと。全プロジェクトに通ることは共通ルールに置き、ここには書かない。
 
-> 📅 作成: 2026-10-02 / 更新: 2026-10-05
+> 📅 作成: 2026-10-02 / 更新: 2026-10-24
 
 [^^](../../README.md)
 
@@ -18,10 +18,15 @@
 |---|---|---|
 | 入り口 | `tools/10_setup/clone-ai-agent-repos.sh` | `.claude/settings.json` の `SessionStart` から呼ぶ。`ai-agent-tools` が無ければ clone し、`cloud-session-start` に任せる |
 | 動く条件 | `CLAUDE_CODE_REMOTE` が `true` | ローカルでは何もしない |
+| 更新する範囲 | `ai-agent-rules`・`ai-agent-tools`・`0000-work`・`ai-obsidian-vault` | 前の 2 つは `cloud-session-start` が日の変わり目に、後の 2 つは入り口がセッションの開始・再開のたびに fetch して rebase する |
 
 #### 決めごと
 
 - **古い `ai-agent-tools` に `cloud-session-start` が無ければ、変更が無いときだけ pull して追いつかせる**。同じ環境のまま再開したセッションでは、入る前の clone が残っているため
+- **このプロジェクトと `ai-obsidian-vault` も、セッションの開始・再開のたびに fetch して rebase する**。4 つとも最新の状態で作業を始めるため。Windows PC 側から push されることが多い
+- **`ai-obsidian-vault` は隣にあるときだけ更新する**。非公開なので、セッションに追加して clone していなければ何もしない
+- **未 commit の変更があれば更新しない**。消さずに報告する。fetch・rebase に失敗したときは rebase を中止して元に戻し、報告する
+- **入り口は自分自身（`0000-work`）を rebase で書き換えるため、本体を関数にまとめて読み終えてから走らせる**
 - **入り口は環境の Setup script へ移す予定**。移すまでは `.claude/settings.json` を残す
 
 ### 2. Stop フックの指示どおり commit・push する
