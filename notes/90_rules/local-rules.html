@@ -200,7 +200,7 @@
 	<div class="inner">
 		<h1>ローカルルール</h1>
 		<p class="lead">このプロジェクトでだけ通る決めごと。全プロジェクトに通ることは共通ルールに置き、ここには書かない。</p>
-		<p class="date">📅 作成: 2026-10-02 / 更新: 2026-10-24</p>
+		<p class="date">📅 作成: 2026-10-02 / 更新: 2026-11-07</p>
 	</div>
 </div>
 
@@ -247,6 +247,7 @@
 		<li><strong>このプロジェクトと <code>ai-obsidian-vault</code> も、セッションの開始・再開のたびに fetch して rebase する</strong>。4 つとも最新の状態で作業を始めるため。Windows PC 側から push されることが多い</li>
 		<li><strong><code>ai-obsidian-vault</code> は隣にあるときだけ更新する</strong>。非公開なので、セッションに追加して clone していなければ何もしない</li>
 		<li><strong>未 commit の変更があれば更新しない</strong>。消さずに報告する。fetch・rebase に失敗したときは rebase を中止して元に戻し、報告する</li>
+		<li><strong>ブランチは <code>develop</code> を使う</strong>。クラウドの環境は、利用者が決めていない既定のブランチ（<code>claude/…</code>）でセッションを始めることがあり、そのブランチには上流が無い。入り口は、上流が無く、<code>origin/develop</code> より先に進んだコミットも無いときは、<code>develop</code> に切り替えてから更新し、切り替えたことを報告する。先に進んだコミットがあるときは、置き去りにしないため触らずに報告する。上流が無いことだけで、エラーにしない</li>
 		<li><strong>入り口は自分自身（<code>0000-work</code>）を rebase で書き換えるため、本体を関数にまとめて読み終えてから走らせる</strong></li>
 		<li><strong>入り口は環境の Setup script へ移す予定</strong>。移すまでは <code>.claude/settings.json</code> を残す</li>
 	</ul>

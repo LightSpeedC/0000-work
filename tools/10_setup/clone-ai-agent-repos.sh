@@ -23,6 +23,23 @@ pull_repo() {
 		echo "$name の fetch に失敗しました。古いまま使っています。ユーザーに報告すること。"
 		return 0
 	fi
+	# 上流が無いとき（セッションの既定のブランチ・切り離された HEAD 等）は、develop に切り替えてから更新する。
+	# 切り替えるのは、origin/develop より先に進んだコミットが無いときだけ。あれば置き去りにしないため、更新しない
+	if ! git -C "$dest" rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+		local branch
+		branch="$(git -C "$dest" rev-parse --abbrev-ref HEAD)"
+		if git -C "$dest" rev-parse --verify -q origin/develop >/dev/null && git -C "$dest" merge-base --is-ancestor HEAD origin/develop; then
+			if git -C "$dest" rev-parse --verify -q refs/heads/develop >/dev/null; then
+				git -C "$dest" checkout -q develop >&2
+			else
+				git -C "$dest" checkout -q -b develop --track origin/develop >&2
+			fi
+			echo "$name を $branch から develop に切り替えました。"
+		else
+			echo "$name の $branch には上流が無く、develop にも合わせられないため、更新しませんでした。ユーザーに報告すること。"
+			return 0
+		fi
+	fi
 	if ! git -C "$dest" rebase --quiet '@{u}' >&2; then
 		git -C "$dest" rebase --abort >/dev/null 2>&1 || true
 		echo "$name の rebase に失敗したため、元に戻しました。古いまま使っています。ユーザーに報告すること。"
