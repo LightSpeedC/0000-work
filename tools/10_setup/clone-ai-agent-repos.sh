@@ -5,7 +5,8 @@
 # ローカル（CLAUDE_CODE_REMOTE が true でない）では何もしない。
 #
 # 自分自身（0000-work）を rebase で書き換えるため、本体は main にまとめ、読み終えてから走らせる。
-set -euo pipefail
+# -e は付けない。どこかが失敗しても、残りを続けて、終了コードは常に 0 にする（セッションの開始を止めない）
+set -uo pipefail
 
 # fetch して rebase する。変更があれば報告する。$1=置き場
 pull_repo() {
@@ -36,7 +37,7 @@ pull_repo() {
 			fi
 			echo "$name を $branch から develop に切り替えました。"
 		else
-			echo "$name の $branch には上流が無く、develop にも合わせられないため、更新しませんでした。ユーザーに報告すること。"
+			echo "$name は $branch にいて上流が無く、先に進んだコミットがあるため、更新していません（失敗ではありません）。ユーザーに伝えること。"
 			return 0
 		fi
 	fi
