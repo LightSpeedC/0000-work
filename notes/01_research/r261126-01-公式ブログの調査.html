@@ -165,7 +165,7 @@ footer.foot{margin:40px 0 0;padding:18px 0 30px;color:#1c2330;background:#fff}
 
   <nav class="toc" aria-label="目次">
     <ol>
-      <li class="ch01"><a href="#ch01">1 軒だけ門前払い</a></li>
+      <li class="ch01"><a href="#ch01">本文まで読めたのは半分</a></li>
       <li class="ch02"><a href="#ch02">見張り番が転んだら</a></li>
       <li class="ch03"><a href="#ch03">同じノートで 16 件が消えた</a></li>
       <li class="ch04"><a href="#ch04">200 行目から先は、ない</a></li>
@@ -177,58 +177,45 @@ footer.foot{margin:40px 0 0;padding:18px 0 30px;color:#1c2330;background:#fff}
 
   <!-- ========== 1 ========== -->
   <section class="ch01" id="ch01">
-    <h1>1 か月ぶんのブログを全部のぞいたら、1 軒だけ門前払いされた</h1>
+    <h1>1 か月ぶんのブログを全部のぞいてみた ── 本文まで読めたのは、ちょうど半分</h1>
 
     <p>知りたかったのは、「公式のブログに、ルール・スキル・フックの種になる話があるか」です。対象は 10/26〜11/26 の 1 か月ぶん。見たのは claude.com/blog と anthropic.com/engineering の記事一覧の 1 ページ目で、重複を除くと約 14 本でした。</p>
-    <p>内訳は、本文まで読めたのが 5 本、一覧の見出しだけ見たのが 7 本。残りの 2 本は claude.dev の記事で、このクラウド環境からは名前が引けず (<code>ENOTFOUND</code>)、門前払いでした。</p>
+    <p>内訳は、本文まで読めたのが 7 本、一覧の見出しだけ見たのが 7 本です。本文まで読んだ 7 本のうち 2 本は claude.dev の記事で、このクラウド環境では、ネットワーク設定で許可するまで名前が引けませんでした。</p>
 
     <figure class="fig">
-      <svg viewBox="0 0 960 270" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="14 本の記事のうち 5 本は本文を読み、7 本は一覧だけ、2 本は入れなかった">
+      <svg viewBox="0 0 960 270" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="14 本の記事のうち 7 本は本文を読み、7 本は一覧の見出しだけ見た">
         <title>14 本の内訳</title>
         <defs>
           <linearGradient id="g-01-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
           <linearGradient id="g-01-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a6472"/><stop offset="1" stop-color="#97a1ae"/></linearGradient>
-          <linearGradient id="g-01-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
         </defs>
         <text x="40" y="44" font-size="17" font-weight="700" fill="#1c2330">公式ブログ (10/26〜11/26) の一覧 1 ページ目 ── 約 14 本</text>
-        <!-- 本文まで読んだ 5 -->
         <g fill="url(#g-01-1a)">
-          <circle cx="40" cy="100" r="17"/><circle cx="84" cy="100" r="17"/><circle cx="128" cy="100" r="17"/><circle cx="172" cy="100" r="17"/><circle cx="216" cy="100" r="17"/>
+          <circle cx="40" cy="100" r="17"/><circle cx="84" cy="100" r="17"/><circle cx="128" cy="100" r="17"/><circle cx="172" cy="100" r="17"/><circle cx="216" cy="100" r="17"/><circle cx="260" cy="100" r="17"/><circle cx="304" cy="100" r="17"/>
         </g>
         <g fill="#fff" font-size="17" font-weight="700" text-anchor="middle">
-          <text x="40" y="106">✓</text><text x="84" y="106">✓</text><text x="128" y="106">✓</text><text x="172" y="106">✓</text><text x="216" y="106">✓</text>
+          <text x="40" y="106">✓</text><text x="84" y="106">✓</text><text x="128" y="106">✓</text><text x="172" y="106">✓</text><text x="216" y="106">✓</text><text x="260" y="106">✓</text><text x="304" y="106">✓</text>
         </g>
-        <!-- 一覧だけ 7 -->
         <g fill="url(#g-01-1b)">
-          <circle cx="260" cy="100" r="17"/><circle cx="304" cy="100" r="17"/><circle cx="348" cy="100" r="17"/><circle cx="392" cy="100" r="17"/><circle cx="436" cy="100" r="17"/><circle cx="480" cy="100" r="17"/><circle cx="524" cy="100" r="17"/>
+          <circle cx="348" cy="100" r="17"/><circle cx="392" cy="100" r="17"/><circle cx="436" cy="100" r="17"/><circle cx="480" cy="100" r="17"/><circle cx="524" cy="100" r="17"/><circle cx="568" cy="100" r="17"/><circle cx="612" cy="100" r="17"/>
         </g>
-        <!-- 入れなかった 2 -->
-        <g fill="url(#g-01-1c)">
-          <circle cx="568" cy="100" r="17"/><circle cx="612" cy="100" r="17"/>
-        </g>
-        <g fill="#fff" font-size="18" font-weight="700" text-anchor="middle"><text x="568" y="106">×</text><text x="612" y="106">×</text></g>
         <g fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round">
-          <path d="M22 130 v8 h212 v-8"/><path d="M242 130 v8 h300 v-8"/><path d="M550 130 v8 h80 v-8"/>
+          <path d="M22 130 v8 h300 v-8"/><path d="M330 130 v8 h300 v-8"/>
         </g>
         <g font-size="14.5" font-weight="700" text-anchor="middle">
-          <text x="128" y="162" fill="#0e712f">本文まで読んだ 5 本</text>
-          <text x="392" y="162" fill="#4a5568">見出しだけ 7 本</text>
-          <text x="590" y="162" fill="#a51f22">入れなかった 2 本</text>
+          <text x="172" y="162" fill="#0e712f">本文まで読んだ 7 本</text>
+          <text x="480" y="162" fill="#4a5568">見出しだけ 7 本</text>
         </g>
-        <text x="40" y="214" font-size="14" fill="#4a5568">入れなかったのは claude.dev の記事 (11/16「検証の考え方」・11/17「chaos loop」)。</text>
-        <text x="40" y="238" font-size="14" fill="#4a5568">環境のネットワーク設定を変えれば、読める可能性があります。</text>
-        <!-- 門 -->
-        <rect x="690" y="30" width="140" height="28" rx="6" fill="#fff" stroke="#710e0e" stroke-width="2"/>
-        <text x="760" y="50" font-size="15" font-weight="700" text-anchor="middle" fill="#710e0e">claude.dev</text>
-        <rect x="700" y="70" width="120" height="170" rx="10" fill="url(#g-01-1c)"/>
-        <rect x="714" y="84" width="92" height="142" rx="6" fill="none" stroke="#fff" stroke-width="2" stroke-opacity=".6"/>
-        <text x="760" y="146" font-size="21" font-weight="700" text-anchor="middle" fill="#fff">門前払い</text>
-        <text x="760" y="170" font-size="12.5" text-anchor="middle" fill="#fff">ENOTFOUND</text>
-        <circle cx="798" cy="206" r="6" fill="#ffd166"/>
-        <path d="M690 240 H950" stroke="#d9dfe8" stroke-width="3"/>
-        <use href="#rk-sad" x="830" y="140" width="100" height="100"/>
+        <text x="40" y="214" font-size="14" fill="#4a5568">本文まで読んだ 7 本には、claude.dev の 2 本 (11/16「検証の考え方」・11/17「chaos loop」) を含みます。</text>
+        <text x="40" y="238" font-size="14" fill="#4a5568">残る 7 本は、一覧の見出しを見ただけです。</text>
+        <rect x="690" y="40" width="240" height="46" rx="12" fill="#fff" stroke="#12224d" stroke-width="2"/>
+        <text x="810" y="70" font-size="16" font-weight="700" text-anchor="middle" fill="#12224d">半分は、本文まで!</text>
+        <path d="M800 86 l10 16 l10 -16 z" fill="#fff" stroke="#12224d" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="801" y="82" width="18" height="6" fill="#fff"/>
+        <use href="#rk-bot" x="750" y="108" width="120" height="120"/>
+        <path d="M690 232 H950" stroke="#d9dfe8" stroke-width="3"/>
       </svg>
-      <figcaption>図: 約 14 本の内訳と、入れなかった 1 軒</figcaption>
+      <figcaption>図: 約 14 本の内訳</figcaption>
     </figure>
 
     <div class="callout callout-important">
@@ -247,8 +234,8 @@ footer.foot{margin:40px 0 0;padding:18px 0 30px;color:#1c2330;background:#fff}
           <tr><td><a href="https://www.anthropic.com/research/components-of-agent-memory">The components of agent memory</a></td><td class="nowrap">11/06</td><td><span class="badge b-ok">本文を読んだ</span></td><td>同じノート・200 行目</td></tr>
           <tr><td><a href="https://claude.com/resources/articles/introducing-claude-ship">Introducing Claude Ship</a></td><td class="nowrap">11/23</td><td><span class="badge b-ok">本文を読んだ</span></td><td>見送り</td></tr>
           <tr><td>一覧に載っていたその他の記事 7 本</td><td class="nowrap">10/26〜11/26</td><td><span class="badge b-warn">見出しだけ</span></td><td>なし</td></tr>
-          <tr><td><a href="https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/">How the Claude Code team thinks about verification</a></td><td class="nowrap">11/16</td><td><span class="badge b-none">取得できず</span></td><td>なし</td></tr>
-          <tr><td><a href="https://claude.dev/blog/chaos-loop-claude-docs-launch/">chaos loop (Claude Docs の公開)</a></td><td class="nowrap">11/17</td><td><span class="badge b-none">取得できず</span></td><td>なし</td></tr>
+          <tr><td><a href="https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/">How the Claude Code team thinks about verification</a></td><td class="nowrap">11/16</td><td><span class="badge b-ok">本文を読んだ</span></td><td>どの案にも入れていない</td></tr>
+          <tr><td><a href="https://claude.dev/blog/chaos-loop-claude-docs-launch/">Using a "chaos loop" to harden the Claude Docs launch</a></td><td class="nowrap">11/17</td><td><span class="badge b-ok">本文を読んだ</span></td><td>どの案にも入れていない</td></tr>
         </tbody>
       </table>
     </div>
@@ -561,7 +548,7 @@ footer.foot{margin:40px 0 0;padding:18px 0 30px;color:#1c2330;background:#fff}
           <tr><td class="nowrap">頻度</td><td>毎週月曜の朝 (JST)</td><td>1 か月で十数本なので、週 1 回で足りる。</td></tr>
           <tr><td class="nowrap">動かす場所</td><td>信頼の承認が済んでいるセッションに向けて、定期実行を発火させる</td><td>新しいセッションは、そのたびに利用者が信頼の確認に答える必要がある。</td></tr>
           <tr><td class="nowrap">届け方</td><td>ai-agent-rules のセッションへ、本文を見せてから「送って」の後に送る</td><td>外へ出す文面なので、先に見せる。以後の分を全文なしで送ってよいかは、利用者が決める。</td></tr>
-          <tr><td class="nowrap">claude.dev</td><td>環境のネットワーク設定で許可する</td><td>入れなかった 2 本が読める。操作は利用者側。</td></tr>
+          <tr><td class="nowrap">claude.dev</td><td>巡回の対象に入れる。環境のネットワーク設定で許可しておく</td><td>許可が無いと名前が引けず、claude.dev の記事は読めない。操作は利用者側。</td></tr>
         </tbody>
       </table>
     </div>
