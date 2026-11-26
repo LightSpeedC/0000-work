@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="md-skip" content="読み物として作った単発の資料のため、Markdown は作らない">
+<title>公式ブログの調査 (2026-11)</title>
+<style>
+:root{--navy1:#12224d;--navy2:#2f5fbf;--ink:#1c2330;--ink-soft:#4a5568;--line:#d9dfe8;--code-bg:#f4f6fa;--accent:#12224d;--accent2:#2f5fbf;--soft:#f2f5fb}
+*{box-sizing:border-box}
+html{background:#fff}
+body{margin:0;background:#fff;color:#1c2330;font-family:"Yu Gothic UI","Hiragino Sans","Noto Sans CJK JP",Meiryo,sans-serif;font-size:15.5px;line-height:1.85}
+a{color:#1a4fa0}
+.wrap{max-width:1600px;margin:0 auto;padding:0 30px}
+
+/* タイトルバー */
+.titlebar{padding:34px 0 30px;color:#fff;background:#12224d;background:linear-gradient(135deg,var(--navy1,#12224d),var(--navy2,#2f5fbf))}
+.titlebar .inner{max-width:1600px;margin:0 auto;padding:0 30px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.titlebar .text{flex:1 1 520px;min-width:0}
+.titlebar h1{margin:0 0 10px;font-size:1.95em;line-height:1.4;color:#fff;background:transparent}
+.titlebar .lead{margin:0 0 6px;color:#dfe7fb;background:transparent;font-size:1.02em}
+.titlebar .date{margin:0;color:#c9d6f5;background:transparent;font-size:.86em}
+.titlebar .hero{flex:0 1 300px;max-width:100%}
+.titlebar .hero svg{display:block;max-width:100%;height:auto}
+
+/* 戻るリンク */
+.backlink{margin:18px 0 0}
+.back-home{display:inline-flex;align-items:center;padding:6px 14px;border-radius:6px;text-decoration:none;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--navy1,#12224d),var(--navy2,#2f5fbf))}
+.back-home svg{display:block}
+
+/* 目次 */
+.toc{margin:22px 0 6px}
+.toc ol{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0;counter-reset:toc}
+.toc li{counter-increment:toc;max-width:100%}
+.toc ol a{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;white-space:normal;width:310px;max-width:100%;padding:8px 12px;border-radius:6px;font-weight:700;font-size:.92em;line-height:1.5;text-decoration:none;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.toc ol a::before{content:counter(toc) ". "}
+
+/* 章のアクセント (7 章: 280 / 233.3 / 186.7 / 140 / 93.3 / 46.7 / 0) */
+.ch01{--accent:hsl(280,78%,25%);--accent2:hsl(280,58%,55%);--soft:hsl(280,28%,95%)}
+.ch02{--accent:hsl(233.3,78%,25%);--accent2:hsl(233.3,58%,55%);--soft:hsl(233.3,28%,95%)}
+.ch03{--accent:hsl(186.7,78%,25%);--accent2:hsl(186.7,58%,55%);--soft:hsl(186.7,28%,95%)}
+.ch04{--accent:hsl(140,78%,25%);--accent2:hsl(140,58%,55%);--soft:hsl(140,28%,95%)}
+.ch05{--accent:hsl(93.3,78%,25%);--accent2:hsl(93.3,58%,55%);--soft:hsl(93.3,28%,95%)}
+.ch06{--accent:hsl(46.7,78%,25%);--accent2:hsl(46.7,58%,55%);--soft:hsl(46.7,28%,95%)}
+.ch07{--accent:hsl(0,78%,25%);--accent2:hsl(0,58%,55%);--soft:hsl(0,28%,95%)}
+
+section{margin:34px 0;padding:4px 26px 26px;border:1px solid #d9dfe8;border-radius:12px;color:#1c2330;background:#fff;background:linear-gradient(180deg,var(--soft,#f2f5fb),#fff)}
+section h1{margin:26px 0 20px;padding:14px 20px;border-radius:8px;font-size:1.55em;line-height:1.45;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf));box-shadow:0 4px 14px rgba(18,34,77,.25)}
+section h2{margin:30px 0 12px;padding:6px 12px;border-left:6px solid var(--accent,#12224d);font-size:1.2em;line-height:1.5;color:var(--accent,#12224d);background:#fff;background:linear-gradient(90deg,var(--soft,#f2f5fb),#fff)}
+section h3{display:inline-block;margin:20px 0 8px;padding-bottom:3px;border-bottom:2px dotted var(--accent2,#2f5fbf);font-size:1.05em;color:#1c2330;background:transparent}
+p{margin:.7em 0}
+code{padding:1px 6px;border:1px solid #d9dfe8;border-radius:4px;background:#f4f6fa;color:#17335f;font-size:.92em}
+
+/* 図 */
+.fig{margin:20px 0}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:6px;text-align:center;color:#4a5568;background:transparent;font-size:.88em}
+
+/* 表 */
+.tablewrap{margin:16px 0;overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(18,34,77,.12);background:#fff}
+th{padding:9px 12px;text-align:left;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+td{padding:9px 12px;vertical-align:top;color:#1c2330;background:#fff;border-top:1px solid #d9dfe8}
+tr:nth-child(even) td{background:#fafbfe}
+td.nowrap{white-space:nowrap}
+
+/* バッジ */
+.badge{display:inline-block;padding:0 10px;border-radius:6px;font-size:.86em;font-weight:700;white-space:nowrap;color:#fff}
+.b-ok{background:#1d7a3c;background:linear-gradient(100deg,#1d7a3c,#45b56c)}
+.b-ng{background:#a51f22;background:linear-gradient(100deg,#a51f22,#e05a5c)}
+.b-warn{background:#b8620a;background:linear-gradient(100deg,#b8620a,#f0a548)}
+.b-none{background:#5a6472;background:linear-gradient(100deg,#5a6472,#97a1ae)}
+
+/* callout */
+.callout{margin:18px 0;padding:12px 18px;border-left:6px solid var(--accent,#12224d);border-radius:0 8px 8px 0;color:#1c2330;background:#fff;background:linear-gradient(180deg,var(--soft,#f2f5fb),#fff)}
+.callout strong{color:var(--accent,#12224d);background:transparent}
+.callout p{margin:.4em 0}
+
+/* 案の箱 */
+.idea{margin:20px 0;padding:14px 20px 16px;border:2px dashed var(--accent2,#2f5fbf);border-radius:12px;color:#1c2330;background:#fff}
+.idea .idea-title{margin:0 0 6px;font-size:1.08em;font-weight:700}
+.idea .tag{display:inline-block;margin-right:8px;padding:0 12px;border-radius:6px;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf));white-space:nowrap}
+.idea dl{display:grid;grid-template-columns:9em 1fr;gap:6px 16px;margin:8px 0 0}
+.idea dt{font-weight:700;color:var(--accent,#12224d);background:transparent}
+.idea dd{margin:0;color:#1c2330;background:transparent}
+@media (max-width:640px){
+  .idea dl{grid-template-columns:1fr;gap:0}
+  .idea dd{margin-bottom:8px}
+  section{padding:4px 14px 20px}
+}
+
+footer.foot{margin:40px 0 0;padding:18px 0 30px;color:#1c2330;background:#fff}
+</style>
+</head>
+<body>
+
+<!-- 案内役「ルールくん」の絵 (色は直書き。図の中から use で呼ぶ) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="rk-bot" viewBox="0 0 100 100">
+    <line x1="50" y1="8" x2="50" y2="22" stroke="#12224d" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="50" cy="8" r="5" fill="#ff8fa3" stroke="#12224d" stroke-width="2"/>
+    <rect x="7" y="40" width="11" height="18" rx="5" fill="#4a59cf" stroke="#12224d" stroke-width="2.5"/>
+    <rect x="82" y="40" width="11" height="18" rx="5" fill="#4a59cf" stroke="#12224d" stroke-width="2.5"/>
+    <rect x="16" y="22" width="68" height="54" rx="20" fill="#fff" stroke="#12224d" stroke-width="3"/>
+    <rect x="26" y="32" width="48" height="33" rx="12" fill="#e8eefc"/>
+    <circle cx="39" cy="46" r="6" fill="#12224d"/><circle cx="61" cy="46" r="6" fill="#12224d"/>
+    <circle cx="41" cy="44" r="2" fill="#fff"/><circle cx="63" cy="44" r="2" fill="#fff"/>
+    <ellipse cx="31" cy="57" rx="5" ry="3" fill="#ffb3c1"/><ellipse cx="69" cy="57" rx="5" ry="3" fill="#ffb3c1"/>
+    <path d="M43 57 Q50 65 57 57" fill="none" stroke="#12224d" stroke-width="3" stroke-linecap="round"/>
+    <rect x="30" y="78" width="40" height="18" rx="8" fill="#4a59cf" stroke="#12224d" stroke-width="3"/>
+    <circle cx="50" cy="87" r="4" fill="#ffd166"/>
+  </symbol>
+  <symbol id="rk-sad" viewBox="0 0 100 100">
+    <line x1="50" y1="8" x2="50" y2="22" stroke="#12224d" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="50" cy="12" r="5" fill="#9aa5bd" stroke="#12224d" stroke-width="2"/>
+    <rect x="7" y="42" width="11" height="18" rx="5" fill="#7b86a8" stroke="#12224d" stroke-width="2.5"/>
+    <rect x="82" y="42" width="11" height="18" rx="5" fill="#7b86a8" stroke="#12224d" stroke-width="2.5"/>
+    <rect x="16" y="22" width="68" height="54" rx="20" fill="#fff" stroke="#12224d" stroke-width="3"/>
+    <rect x="26" y="32" width="48" height="33" rx="12" fill="#e8eefc"/>
+    <path d="M32 42 L45 37 M68 42 L55 37" fill="none" stroke="#12224d" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="39" cy="48" r="5" fill="#12224d"/><circle cx="61" cy="48" r="5" fill="#12224d"/>
+    <circle cx="40.5" cy="46.5" r="1.8" fill="#fff"/><circle cx="62.5" cy="46.5" r="1.8" fill="#fff"/>
+    <path d="M70 52 Q66 60 70 63 Q74 60 70 52 Z" fill="#7ec8ff"/>
+    <path d="M43 62 Q50 55 57 62" fill="none" stroke="#12224d" stroke-width="3" stroke-linecap="round"/>
+    <rect x="30" y="78" width="40" height="18" rx="8" fill="#7b86a8" stroke="#12224d" stroke-width="3"/>
+    <circle cx="50" cy="87" r="4" fill="#e8eefc"/>
+  </symbol>
+  <symbol id="rk-ghost" viewBox="0 0 100 100">
+    <path d="M20 92 V48 Q20 12 50 12 Q80 12 80 48 V92 L68 82 L56 92 L44 82 L32 92 Z" fill="#fff" stroke="#8a94a6" stroke-width="3" stroke-dasharray="6 4" stroke-linejoin="round"/>
+    <circle cx="40" cy="45" r="5" fill="#4a5568"/><circle cx="60" cy="45" r="5" fill="#4a5568"/>
+    <ellipse cx="31" cy="56" rx="4.5" ry="3" fill="#ffb3c1"/><ellipse cx="69" cy="56" rx="4.5" ry="3" fill="#ffb3c1"/>
+    <ellipse cx="50" cy="62" rx="5" ry="6" fill="#4a5568"/>
+  </symbol>
+</svg>
+
+<header class="titlebar">
+  <div class="inner">
+    <div class="text">
+      <h1>Claude 公式ブログ 1 か月ぶんを一気読みしたら、ルールに足したい 4 つが見つかった</h1>
+      <p class="lead">10/26〜11/26 の公式ブログから、ルール・スキル・フックに足せる案を探した調査です。案内役はロボの「ルールくん」。</p>
+      <p class="date">📅 作成: 2026-11-26 / 更新: 2026-11-26</p>
+    </div>
+    <div class="hero">
+      <svg viewBox="0 0 260 160" role="img" aria-label="本の山と虫めがねとルールくん">
+        <title>本の山と虫めがねとルールくん</title>
+        <rect x="14" y="132" width="124" height="18" rx="4" fill="#8ecae6"/>
+        <rect x="24" y="112" width="104" height="18" rx="4" fill="#ef8fa3"/>
+        <rect x="10" y="92" width="116" height="18" rx="4" fill="#ffd166"/>
+        <rect x="20" y="96" width="60" height="3" rx="1.5" fill="#12224d"/>
+        <rect x="30" y="116" width="46" height="3" rx="1.5" fill="#12224d"/>
+        <rect x="24" y="136" width="70" height="3" rx="1.5" fill="#12224d"/>
+        <use href="#rk-bot" x="70" y="-4" width="124" height="124"/>
+        <circle cx="205" cy="104" r="24" fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="5"/>
+        <line x1="222" y1="122" x2="244" y2="148" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M232 24 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="#ffd166"/>
+        <path d="M30 34 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#ffd166"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <p class="backlink"><a class="back-home" href="../../README.html" aria-label="README へ戻る" title="README へ戻る"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z" fill="#fff"/></svg></a></p>
+
+  <nav class="toc" aria-label="目次">
+    <ol>
+      <li class="ch01"><a href="#ch01">1 軒だけ門前払い</a></li>
+      <li class="ch02"><a href="#ch02">見張り番が転んだら</a></li>
+      <li class="ch03"><a href="#ch03">同じノートで 16 件が消えた</a></li>
+      <li class="ch04"><a href="#ch04">200 行目から先は、ない</a></li>
+      <li class="ch05"><a href="#ch05">合鍵を配らない</a></li>
+      <li class="ch06"><a href="#ch06">見送った 4 組</a></li>
+      <li class="ch07"><a href="#ch07">巡回ロボを毎週走らせる</a></li>
+    </ol>
+  </nav>
+
+  <!-- ========== 1 ========== -->
+  <section class="ch01" id="ch01">
+    <h1>1 か月ぶんのブログを全部のぞいたら、1 軒だけ門前払いされた</h1>
+
+    <p>知りたかったのは、「公式のブログに、ルール・スキル・フックの種になる話があるか」です。対象は 10/26〜11/26 の 1 か月ぶん。見たのは claude.com/blog と anthropic.com/engineering の記事一覧の 1 ページ目で、重複を除くと約 14 本でした。</p>
+    <p>内訳は、本文まで読めたのが 5 本、一覧の見出しだけ見たのが 7 本。残りの 2 本は claude.dev の記事で、このクラウド環境からは名前が引けず (<code>ENOTFOUND</code>)、門前払いでした。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 270" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="14 本の記事のうち 5 本は本文を読み、7 本は一覧だけ、2 本は入れなかった">
+        <title>14 本の内訳</title>
+        <defs>
+          <linearGradient id="g-01-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+          <linearGradient id="g-01-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a6472"/><stop offset="1" stop-color="#97a1ae"/></linearGradient>
+          <linearGradient id="g-01-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+        </defs>
+        <text x="40" y="44" font-size="17" font-weight="700" fill="#1c2330">公式ブログ (10/26〜11/26) の一覧 1 ページ目 ── 約 14 本</text>
+        <!-- 本文まで読んだ 5 -->
+        <g fill="url(#g-01-1a)">
+          <circle cx="40" cy="100" r="17"/><circle cx="84" cy="100" r="17"/><circle cx="128" cy="100" r="17"/><circle cx="172" cy="100" r="17"/><circle cx="216" cy="100" r="17"/>
+        </g>
+        <g fill="#fff" font-size="17" font-weight="700" text-anchor="middle">
+          <text x="40" y="106">✓</text><text x="84" y="106">✓</text><text x="128" y="106">✓</text><text x="172" y="106">✓</text><text x="216" y="106">✓</text>
+        </g>
+        <!-- 一覧だけ 7 -->
+        <g fill="url(#g-01-1b)">
+          <circle cx="260" cy="100" r="17"/><circle cx="304" cy="100" r="17"/><circle cx="348" cy="100" r="17"/><circle cx="392" cy="100" r="17"/><circle cx="436" cy="100" r="17"/><circle cx="480" cy="100" r="17"/><circle cx="524" cy="100" r="17"/>
+        </g>
+        <!-- 入れなかった 2 -->
+        <g fill="url(#g-01-1c)">
+          <circle cx="568" cy="100" r="17"/><circle cx="612" cy="100" r="17"/>
+        </g>
+        <g fill="#fff" font-size="18" font-weight="700" text-anchor="middle"><text x="568" y="106">×</text><text x="612" y="106">×</text></g>
+        <g fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round">
+          <path d="M22 130 v8 h212 v-8"/><path d="M242 130 v8 h300 v-8"/><path d="M550 130 v8 h80 v-8"/>
+        </g>
+        <g font-size="14.5" font-weight="700" text-anchor="middle">
+          <text x="128" y="162" fill="#0e712f">本文まで読んだ 5 本</text>
+          <text x="392" y="162" fill="#4a5568">見出しだけ 7 本</text>
+          <text x="590" y="162" fill="#a51f22">入れなかった 2 本</text>
+        </g>
+        <text x="40" y="214" font-size="14" fill="#4a5568">入れなかったのは claude.dev の記事 (11/16「検証の考え方」・11/17「chaos loop」)。</text>
+        <text x="40" y="238" font-size="14" fill="#4a5568">環境のネットワーク設定を変えれば、読める可能性があります。</text>
+        <!-- 門 -->
+        <rect x="690" y="30" width="140" height="28" rx="6" fill="#fff" stroke="#710e0e" stroke-width="2"/>
+        <text x="760" y="50" font-size="15" font-weight="700" text-anchor="middle" fill="#710e0e">claude.dev</text>
+        <rect x="700" y="70" width="120" height="170" rx="10" fill="url(#g-01-1c)"/>
+        <rect x="714" y="84" width="92" height="142" rx="6" fill="none" stroke="#fff" stroke-width="2" stroke-opacity=".6"/>
+        <text x="760" y="146" font-size="21" font-weight="700" text-anchor="middle" fill="#fff">門前払い</text>
+        <text x="760" y="170" font-size="12.5" text-anchor="middle" fill="#fff">ENOTFOUND</text>
+        <circle cx="798" cy="206" r="6" fill="#ffd166"/>
+        <path d="M690 240 H950" stroke="#d9dfe8" stroke-width="3"/>
+        <use href="#rk-sad" x="830" y="140" width="100" height="100"/>
+      </svg>
+      <figcaption>図: 約 14 本の内訳と、入れなかった 1 軒</figcaption>
+    </figure>
+
+    <div class="callout callout-important">
+      <p><strong>この資料の数字について</strong></p>
+      <p>記事の数字 (件数・割合・行数) は、記事がそう書いている、というもので、こちらで確かめ直してはいません。また一覧は 1 ページ目だけなので、2 ページ目より古い記事は見ていません。</p>
+    </div>
+
+    <h2>どこまで読んだか</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>記事</th><th>日付</th><th>読んだ範囲</th><th>出てくる章</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents">コーディングエージェントを守る企業向けの手引き</a></td><td class="nowrap">11/23</td><td><span class="badge b-ok">本文を読んだ</span></td><td>見張り番・合鍵</td></tr>
+          <tr><td><a href="https://claude.com/resources/articles/building-always-on-agents">Building always-on agents</a></td><td class="nowrap">11/13</td><td><span class="badge b-ok">本文を読んだ</span></td><td>200 行目・見送り</td></tr>
+          <tr><td><a href="https://claude.com/resources/articles/skills-over-mcp-tasks-and-more">Skills over MCP・Tasks・Elicitation</a></td><td class="nowrap">11/24</td><td><span class="badge b-ok">本文を読んだ</span></td><td>見送り</td></tr>
+          <tr><td><a href="https://www.anthropic.com/research/components-of-agent-memory">The components of agent memory</a></td><td class="nowrap">11/06</td><td><span class="badge b-ok">本文を読んだ</span></td><td>同じノート・200 行目</td></tr>
+          <tr><td><a href="https://claude.com/resources/articles/introducing-claude-ship">Introducing Claude Ship</a></td><td class="nowrap">11/23</td><td><span class="badge b-ok">本文を読んだ</span></td><td>見送り</td></tr>
+          <tr><td>一覧に載っていたその他の記事 7 本</td><td class="nowrap">10/26〜11/26</td><td><span class="badge b-warn">見出しだけ</span></td><td>なし</td></tr>
+          <tr><td><a href="https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/">How the Claude Code team thinks about verification</a></td><td class="nowrap">11/16</td><td><span class="badge b-none">取得できず</span></td><td>なし</td></tr>
+          <tr><td><a href="https://claude.dev/blog/chaos-loop-claude-docs-launch/">chaos loop (Claude Docs の公開)</a></td><td class="nowrap">11/17</td><td><span class="badge b-none">取得できず</span></td><td>なし</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== 2 ========== -->
+  <section class="ch02" id="ch02">
+    <h1>見張り番が転んだら、そのまま通してしまう?</h1>
+
+    <p>企業向けの手引き (11/23) に、いちばん「うちにも関係がある」話がありました。<code>PreToolUse</code> フックは、コマンドが走る前に止められる見張り番です。ところが、その見張り番が<strong>失敗したり時間切れになったりすると、既定ではそのまま通ります</strong>。</p>
+    <p>手引きは、失敗したときの動き (<code>onFailure</code>) を <code>block</code> にして、転んだら止める側に倒すよう勧めています。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 275" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="見張り番が失敗したとき、既定では素通りし、推奨の設定では止まる">
+        <title>見張り番が失敗したとき</title>
+        <defs>
+          <linearGradient id="g-02-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(233.3,78%,25%)"/><stop offset="1" stop-color="hsl(233.3,58%,55%)"/></linearGradient>
+          <linearGradient id="g-02-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(186.7,78%,25%)"/><stop offset="1" stop-color="hsl(186.7,58%,55%)"/></linearGradient>
+          <linearGradient id="g-02-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+          <linearGradient id="g-02-1d" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+          <marker id="m-02-1a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+        </defs>
+        <!-- 既定 -->
+        <text x="30" y="28" font-size="16" font-weight="700" fill="#a51f22">いまの既定 ── 見張りが転ぶと、素通り</text>
+        <rect x="30" y="44" width="190" height="64" rx="12" fill="url(#g-02-1a)"/>
+        <text x="125" y="83" font-size="18" font-weight="700" text-anchor="middle" fill="#fff">コマンド</text>
+        <path d="M222 76 H296" stroke="#4a5568" stroke-width="3" marker-end="url(#m-02-1a)"/>
+        <rect x="300" y="44" width="230" height="64" rx="12" fill="url(#g-02-1b)"/>
+        <text x="415" y="70" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">見張り番 (hook)</text>
+        <text x="415" y="94" font-size="13.5" text-anchor="middle" fill="#fff">× 失敗・時間切れ</text>
+        <path d="M532 76 H646" stroke="#a51f22" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#m-02-1a)"/>
+        <text x="590" y="66" font-size="13.5" font-weight="700" text-anchor="middle" fill="#a51f22">そのまま</text>
+        <rect x="650" y="44" width="210" height="64" rx="12" fill="url(#g-02-1c)"/>
+        <text x="755" y="83" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">実行されてしまう</text>
+        <use href="#rk-sad" x="868" y="34" width="84" height="84"/>
+        <path d="M30 140 H930" stroke="#d9dfe8" stroke-width="2" stroke-dasharray="8 6"/>
+        <!-- 推奨 -->
+        <text x="30" y="172" font-size="16" font-weight="700" fill="#0e712f">推奨 ── <tspan font-family="Consolas,Menlo,monospace">onFailure</tspan> を block にして、転んだら止める</text>
+        <rect x="30" y="188" width="190" height="64" rx="12" fill="url(#g-02-1a)"/>
+        <text x="125" y="227" font-size="18" font-weight="700" text-anchor="middle" fill="#fff">コマンド</text>
+        <path d="M222 220 H296" stroke="#4a5568" stroke-width="3" marker-end="url(#m-02-1a)"/>
+        <rect x="300" y="188" width="230" height="64" rx="12" fill="url(#g-02-1b)"/>
+        <text x="415" y="214" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">見張り番 (hook)</text>
+        <text x="415" y="238" font-size="13.5" text-anchor="middle" fill="#fff">× 失敗・時間切れ</text>
+        <path d="M532 220 H646" stroke="#0e712f" stroke-width="3" marker-end="url(#m-02-1a)"/>
+        <text x="590" y="210" font-size="13.5" font-weight="700" text-anchor="middle" fill="#0e712f">止める</text>
+        <rect x="650" y="188" width="210" height="64" rx="12" fill="url(#g-02-1d)"/>
+        <text x="755" y="227" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">実行を止める</text>
+        <use href="#rk-bot" x="868" y="178" width="84" height="84"/>
+      </svg>
+      <figcaption>図: 見張り番が転んだときの、既定と推奨の違い</figcaption>
+    </figure>
+
+    <div class="idea">
+      <p class="idea-title"><span class="tag">案 1 ・ hook</span>止めるためのフックは、失敗・時間切れでも止まる設定にする</p>
+      <dl>
+        <dt>何を足すか</dt><dd>実行を止める目的のフックを置くとき、失敗・時間切れのときも止める設定 (<code>onFailure</code> の <code>block</code>) にする、という決めごと。</dd>
+        <dt>なぜか</dt><dd>記事によると、フックが失敗・時間切れになると既定では通ってしまう。止めたいものほど、見張りが転んだときに素通りしては意味がない。</dd>
+        <dt>先に確かめること</dt><dd>いま入れている Claude Code (2.1.332) に <code>onFailure</code> があるか。<strong>まだ確かめていません</strong>。ai-agent-rules にも、<code>PreToolUse</code> や <code>onFailure</code> を扱う決めごとは今のところありません。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========== 3 ========== -->
+  <section class="ch03" id="ch03">
+    <h1>みんなで同じノートに書いたら、57 件のうち 16 件が消えた</h1>
+
+    <p>「The components of agent memory」(11/06) には、複数のエージェントが<strong>同じファイルに同時に書く</strong>実験が載っています。57 件の事実を書かせたところ、残ったのは 41 件。1 エージェントにつき 1 ページへ分けると、57 件が全部残りました。</p>
+    <p>うちの Vault は、日誌に複数のセッションが書き込みます。同じ日の日誌を同時に書くことがあるなら、同じことが起きうる話です。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 285" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="同じファイルに書くと 57 件中 41 件が残り、1 人 1 ページなら 57 件が残る">
+        <title>同じファイルと 1 人 1 ページの比較</title>
+        <defs>
+          <linearGradient id="g-03-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(25,78%,25%)"/><stop offset="1" stop-color="hsl(25,58%,55%)"/></linearGradient>
+          <linearGradient id="g-03-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+        </defs>
+        <text x="40" y="50" font-size="16" font-weight="700" fill="#1c2330">同じファイルに、みんなで同時に書く</text>
+        <rect x="40" y="62" width="287" height="50" rx="10" fill="url(#g-03-1a)"/>
+        <text x="183" y="93" font-size="18" font-weight="700" text-anchor="middle" fill="#fff">41 件 残った</text>
+        <rect x="327" y="62" width="112" height="50" rx="10" fill="#fff" stroke="#a51f22" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="383" y="93" font-size="16" font-weight="700" text-anchor="middle" fill="#a51f22">16 件 消えた</text>
+        <use href="#rk-ghost" x="452" y="40" width="80" height="80"/>
+        <text x="570" y="96" font-size="28" font-weight="700" fill="#a51f22">約 28 % が消えた</text>
+        <text x="40" y="160" font-size="16" font-weight="700" fill="#1c2330">1 人 1 ページに分けて書く</text>
+        <rect x="40" y="172" width="399" height="50" rx="10" fill="url(#g-03-1b)"/>
+        <text x="240" y="203" font-size="18" font-weight="700" text-anchor="middle" fill="#fff">57 件 ぜんぶ残った</text>
+        <use href="#rk-bot" x="452" y="150" width="80" height="80"/>
+        <text x="570" y="206" font-size="28" font-weight="700" fill="#0e712f">0 % が消えた</text>
+        <text x="40" y="262" font-size="13.5" fill="#4a5568">記事の実験 1 回ぶんの数字です。割合 (16 ÷ 57) はこちらで計算したもので、そのまま他へ当てはめません。</text>
+      </svg>
+      <figcaption>図: 同じファイルに同時に書いたときと、ページを分けたときの残り方</figcaption>
+    </figure>
+
+    <div class="idea">
+      <p class="idea-title"><span class="tag">案 2 ・ rule</span>同時に書かれうる共有ファイルは、1 セッション 1 ファイルにする</p>
+      <dl>
+        <dt>何を足すか</dt><dd>複数のセッションが同じ日に書く日誌 (Vault) などは、セッションごとにファイルを分け、あとで束ねる、という決めごと。</dd>
+        <dt>なぜか</dt><dd>同じファイルへの同時書き込みは、気づかないうちに内容を失う。実験では 57 件中 16 件が消えた。</dd>
+        <dt>先に確かめること</dt><dd>既にある <code>safe-push</code> で足りるか。足りるなら、新しい決めごとは増やさない。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========== 4 ========== -->
+  <section class="ch04" id="ch04">
+    <h1>200 行目から先は、なかったことになる</h1>
+
+    <p>同じ記事に、Claude Code の自動メモリの話があります。<code>MEMORY.md</code> は、<strong>先頭の 200 行・25KB まで</strong>しか起動時に読まれません。それより後ろは、書いてあっても文脈に入りません。</p>
+    <p>常時稼働エージェントの記事 (11/13) も、起動時に読み込む文脈は軽くしておくよう勧めています。同じ考え方を当てると、AGENTS.md から読み込む共通ルールやローカルルール、<code>!memory.md</code> のような、起動のたびに読むファイルが対象になります。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 340" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="MEMORY.md の先頭 200 行までが読まれ、そこから先は読まれない">
+        <title>MEMORY.md の読まれる範囲</title>
+        <defs>
+          <linearGradient id="g-04-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(233.3,78%,25%)"/><stop offset="1" stop-color="hsl(233.3,58%,55%)"/></linearGradient>
+          <linearGradient id="g-04-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+          <linearGradient id="g-04-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+          <linearGradient id="g-04-1d" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(186.7,78%,25%)"/><stop offset="1" stop-color="hsl(186.7,58%,55%)"/></linearGradient>
+        </defs>
+        <text x="195" y="16" font-size="14" font-weight="700" text-anchor="middle" fill="#1c2330">MEMORY.md</text>
+        <rect x="50" y="24" width="290" height="290" rx="12" fill="#fff" stroke="#12224d" stroke-width="3"/>
+        <rect x="53" y="27" width="284" height="173" rx="10" fill="url(#g-04-1a)"/>
+        <g stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-opacity=".85">
+          <path d="M75 54 h190"/><path d="M75 80 h230"/><path d="M75 106 h170"/><path d="M75 132 h215"/><path d="M75 158 h150"/><path d="M75 184 h200"/>
+        </g>
+        <rect x="53" y="200" width="284" height="111" rx="10" fill="#e6e9ef"/>
+        <g stroke="#b4bcc9" stroke-width="5" stroke-linecap="round">
+          <path d="M75 226 h200"/><path d="M75 252 h235"/><path d="M75 278 h160"/>
+        </g>
+        <path d="M30 200 H362" stroke="#a51f22" stroke-width="2.5" stroke-dasharray="8 6"/>
+        <text x="368" y="206" font-size="14" font-weight="700" fill="#a51f22">← 200 行</text>
+        <use href="#rk-ghost" x="248" y="228" width="72" height="72"/>
+        <rect x="470" y="40" width="450" height="80" rx="14" fill="url(#g-04-1b)"/>
+        <text x="495" y="76" font-size="18" font-weight="700" fill="#fff">読まれる: 先頭の 200 行・25KB まで</text>
+        <text x="495" y="102" font-size="13.5" fill="#fff">起動のたびに、毎回ここだけが文脈に入る</text>
+        <rect x="470" y="140" width="450" height="80" rx="14" fill="url(#g-04-1c)"/>
+        <text x="495" y="176" font-size="18" font-weight="700" fill="#fff">読まれない: そこから先</text>
+        <text x="495" y="202" font-size="13.5" fill="#fff">追記は末尾に増えるので、新しいメモほど落ちやすい</text>
+        <rect x="470" y="240" width="450" height="80" rx="14" fill="url(#g-04-1d)"/>
+        <text x="495" y="276" font-size="18" font-weight="700" fill="#fff">対策: 大事なことは先頭に、全体は小さく</text>
+        <text x="495" y="302" font-size="13.5" fill="#fff">起動時に読むファイルは、薄く保つ</text>
+      </svg>
+      <figcaption>図: 起動時に読まれる範囲と、読まれない範囲</figcaption>
+    </figure>
+
+    <div class="idea">
+      <p class="idea-title"><span class="tag">案 3 ・ rule</span>起動時に読むファイルは、大きさの上限を決めて小さく保つ</p>
+      <dl>
+        <dt>何を足すか</dt><dd>起動のたびに読み込むファイル (<code>!memory.md</code>・ローカルルールなど) に、行数やサイズの目安を決める。上限を超えたら、詳しい話は別のファイルへ逃がし、先頭からはリンクで辿らせる。</dd>
+        <dt>なぜか</dt><dd>読まれない部分は、書いていないのと同じ。しかも毎回の起動で、読み込んだ分だけ文脈を使う。</dd>
+        <dt>先に確かめること</dt><dd>記事が言うのは <code>MEMORY.md</code> の読み込みの上限。AGENTS.md の側に同じ上限があるかは、確かめていません。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========== 5 ========== -->
+  <section class="ch05" id="ch05">
+    <h1>「python なら何でも OK」は、合鍵を配るのと同じ</h1>
+
+    <p>手引きの記事は、許可の書き方にも踏み込んでいます。見る順番は <strong>deny → ask → allow</strong>。そして <code>Bash(python:*)</code> のような、<strong>広すぎる許可は避ける</strong>ように、と。python では何でもできるので、「python は許可」は実質「何でも許可」だからです (この「合鍵」はたとえで、記事の言い回しではありません)。</p>
+    <p>ほかにも 2 点ありました。サブエージェントは親の許可をそのまま引き継ぎます。Bash のコマンドは分割され、分けた 1 つずつが検査されます。</p>
+    <p>うちの共通ルールには、<code>add_repo</code> の許可を書くとき「ツールは 1 つずつ書き、ワイルドカードは使わない」と、既に書いてあります。案 4 は、その考えを許可全般へ広げるものです。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 330" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="許可は deny、ask、allow の順に見る。広い許可は合鍵と同じ">
+        <title>許可の評価の順番</title>
+        <defs>
+          <linearGradient id="g-05-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+          <linearGradient id="g-05-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(25,78%,25%)"/><stop offset="1" stop-color="hsl(25,58%,55%)"/></linearGradient>
+          <linearGradient id="g-05-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+        </defs>
+        <text x="60" y="40" font-size="17" font-weight="700" fill="#1c2330">許可を見る順番 (記事の言い方)</text>
+        <rect x="60" y="190" width="250" height="100" rx="12" fill="url(#g-05-1a)"/>
+        <text x="185" y="234" font-size="26" font-weight="700" text-anchor="middle" fill="#fff">deny</text>
+        <text x="185" y="262" font-size="14" text-anchor="middle" fill="#fff">先に見る ── 禁止</text>
+        <circle cx="86" cy="214" r="14" fill="#fff"/><text x="86" y="220" font-size="16" font-weight="700" text-anchor="middle" fill="#12224d">1</text>
+        <rect x="330" y="140" width="250" height="150" rx="12" fill="url(#g-05-1b)"/>
+        <text x="455" y="212" font-size="26" font-weight="700" text-anchor="middle" fill="#fff">ask</text>
+        <text x="455" y="240" font-size="14" text-anchor="middle" fill="#fff">次に見る ── 確認する</text>
+        <circle cx="356" cy="164" r="14" fill="#fff"/><text x="356" y="170" font-size="16" font-weight="700" text-anchor="middle" fill="#12224d">2</text>
+        <rect x="600" y="90" width="250" height="200" rx="12" fill="url(#g-05-1c)"/>
+        <text x="725" y="196" font-size="26" font-weight="700" text-anchor="middle" fill="#fff">allow</text>
+        <text x="725" y="224" font-size="14" text-anchor="middle" fill="#fff">最後に見る ── 許可</text>
+        <circle cx="626" cy="114" r="14" fill="#fff"/><text x="626" y="120" font-size="16" font-weight="700" text-anchor="middle" fill="#12224d">3</text>
+        <!-- 合鍵 -->
+        <circle cx="660" cy="42" r="14" fill="none" stroke="#b8620a" stroke-width="5"/>
+        <path d="M674 42 H748 M730 42 V57 M742 42 V53" fill="none" stroke="#b8620a" stroke-width="5" stroke-linecap="round"/>
+        <text x="764" y="40" font-size="15" font-weight="700" fill="#a51f22" font-family="Consolas,Menlo,monospace">Bash(python:*)</text>
+        <text x="764" y="62" font-size="13.5" fill="#a51f22">← 広すぎる合鍵</text>
+        <use href="#rk-bot" x="90" y="70" width="96" height="96"/>
+        <rect x="200" y="86" width="190" height="46" rx="12" fill="#fff" stroke="#12224d" stroke-width="2"/>
+        <path d="M200 112 l-12 6 l12 6 z" fill="#fff" stroke="#12224d" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="199" y="104" width="4" height="16" fill="#fff"/>
+        <text x="295" y="115" font-size="16" font-weight="700" text-anchor="middle" fill="#12224d">狭く、1 つずつ</text>
+      </svg>
+      <figcaption>図: 許可を見る順番と、広い許可の危うさ</figcaption>
+    </figure>
+
+    <div class="idea">
+      <p class="idea-title"><span class="tag">案 4 ・ rule</span>許可は狭く書く。実行環境ごと許す書き方はしない</p>
+      <dl>
+        <dt>何を足すか</dt><dd><code>Bash(python:*)</code> のように、実行環境そのものを許す書き方をしない。許可は 1 つずつ、deny → ask → allow の順で考える、という決めごとを、<code>add_repo</code> の分だけでなく許可全般に置く。</dd>
+        <dt>なぜか</dt><dd>python や node を丸ごと許すと、その先で何でも走る。サブエージェントは親の許可を引き継ぐので、広い許可は広がる。</dd>
+        <dt>先に確かめること</dt><dd>今ある許可の置き場 (ホームの設定とプロジェクトの設定) に、広い許可が入っていないか。</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========== 6 ========== -->
+  <section class="ch06" id="ch06">
+    <h1>今回は見送り。でも名前は覚えておきたい 4 組</h1>
+
+    <p>ほかにも面白い話はありましたが、今の決めごとに足すほどではありませんでした。見送った理由と一緒に、名前だけ残しておきます。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 295" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="見送った 4 組のカード">
+        <title>見送った 4 組</title>
+        <defs>
+          <linearGradient id="g-06-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+          <linearGradient id="g-06-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(233.3,78%,25%)"/><stop offset="1" stop-color="hsl(233.3,58%,55%)"/></linearGradient>
+          <linearGradient id="g-06-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(186.7,78%,25%)"/><stop offset="1" stop-color="hsl(186.7,58%,55%)"/></linearGradient>
+          <linearGradient id="g-06-1d" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(25,78%,25%)"/><stop offset="1" stop-color="hsl(25,58%,55%)"/></linearGradient>
+        </defs>
+        <rect x="20" y="30" width="215" height="190" rx="14" fill="url(#g-06-1a)"/>
+        <text x="127" y="66" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">常時稼働エージェント</text>
+        <g font-size="13.5" text-anchor="middle" fill="#fff">
+          <text x="127" y="102">5 つの部品:</text><text x="127" y="124">受信箱・タイマー・記憶・</text><text x="127" y="146">権限・送信箱</text><text x="127" y="184">いまの作法と同じ向き</text>
+        </g>
+        <rect x="252" y="30" width="215" height="190" rx="14" fill="url(#g-06-1b)"/>
+        <text x="359" y="66" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">Skills over MCP</text>
+        <g font-size="13.5" text-anchor="middle" fill="#fff">
+          <text x="359" y="102">ベータ</text><text x="359" y="124">スキルで MCP を使う話</text><text x="359" y="184">動きが変わりうる</text>
+        </g>
+        <rect x="484" y="30" width="215" height="190" rx="14" fill="url(#g-06-1c)"/>
+        <text x="591" y="66" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">Claude Ship</text>
+        <g font-size="13.5" text-anchor="middle" fill="#fff">
+          <text x="591" y="98">Code Review</text><text x="591" y="118">PR Steward</text><text x="591" y="138">Claude Approvals</text><text x="591" y="170">Team・Enterprise 向け</text><text x="591" y="192">GitHub のみ</text>
+        </g>
+        <rect x="716" y="30" width="215" height="190" rx="14" fill="url(#g-06-1d)"/>
+        <text x="823" y="66" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">Tasks・Elicitation</text>
+        <g font-size="13.5" text-anchor="middle" fill="#fff">
+          <text x="823" y="102">MCP の新しい機能</text><text x="823" y="124">Skills over MCP と</text><text x="823" y="146">同じ記事</text><text x="823" y="184">ベータ</text>
+        </g>
+        <use href="#rk-bot" x="380" y="206" width="84" height="84"/>
+        <rect x="474" y="226" width="230" height="40" rx="12" fill="#fff" stroke="#12224d" stroke-width="2"/>
+        <path d="M474 240 l-12 6 l12 6 z" fill="#fff" stroke="#12224d" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="473" y="238" width="4" height="16" fill="#fff"/>
+        <text x="589" y="252" font-size="15" font-weight="700" text-anchor="middle" fill="#12224d">名前だけ覚えておくね</text>
+      </svg>
+      <figcaption>図: 見送った 4 組</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>名前</th><th>中身</th><th>見送る理由</th></tr></thead>
+        <tbody>
+          <tr><td>常時稼働エージェント (11/13)</td><td>受信箱・タイマー・記憶・権限・送信箱の 5 部品で組む。起動時の文脈は軽く。</td><td>いまのやり方と同じ向きで、足す決めごとが無い。</td></tr>
+          <tr><td>Skills over MCP (11/24)</td><td>スキルを使って MCP をつなぐ話。ベータ。</td><td>ベータで、動きが変わりうる。</td></tr>
+          <tr><td>Claude Ship (11/23)</td><td>Code Review・PR Steward・Claude Approvals。Team・Enterprise 向け、GitHub のみ、トークン課金。</td><td>使えるかは契約次第。契約を確かめてから。</td></tr>
+          <tr><td>Tasks・Elicitation (11/24)</td><td>MCP の新しい機能。Skills over MCP と同じ記事で、ベータ。</td><td>ベータで、動きが変わりうる。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== 7 ========== -->
+  <section class="ch07" id="ch07">
+    <h1>巡回ロボを毎週走らせる ── 読む・照らす・届ける</h1>
+
+    <p>1 回きりの調査にせず、公式ブログを定期的に読んで、案を ai-agent-rules へ届ける流れにしたい、という話です。ルールくんが毎週ぐるぐる回ります。</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 960 295" font-family="'Yu Gothic UI','Hiragino Sans','Noto Sans CJK JP',Meiryo,sans-serif" role="img" aria-label="読む、照らす、案を出す、届ける、を毎週くり返す">
+        <title>毎週の巡回の流れ</title>
+        <defs>
+          <linearGradient id="g-07-1a" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(233.3,78%,25%)"/><stop offset="1" stop-color="hsl(233.3,58%,55%)"/></linearGradient>
+          <linearGradient id="g-07-1b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(186.7,78%,25%)"/><stop offset="1" stop-color="hsl(186.7,58%,55%)"/></linearGradient>
+          <linearGradient id="g-07-1c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+          <linearGradient id="g-07-1d" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(25,78%,25%)"/><stop offset="1" stop-color="hsl(25,58%,55%)"/></linearGradient>
+          <marker id="m-07-1a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+        </defs>
+        <rect x="30" y="50" width="200" height="100" rx="14" fill="url(#g-07-1a)"/>
+        <text x="130" y="88" font-size="21" font-weight="700" text-anchor="middle" fill="#fff">読む</text>
+        <text x="130" y="112" font-size="13.5" text-anchor="middle" fill="#fff">公式ブログの</text><text x="130" y="131" font-size="13.5" text-anchor="middle" fill="#fff">新着を見る</text>
+        <path d="M232 100 H268" stroke="#4a5568" stroke-width="3" marker-end="url(#m-07-1a)"/>
+        <rect x="270" y="50" width="200" height="100" rx="14" fill="url(#g-07-1b)"/>
+        <text x="370" y="88" font-size="21" font-weight="700" text-anchor="middle" fill="#fff">照らす</text>
+        <text x="370" y="112" font-size="13.5" text-anchor="middle" fill="#fff">ai-agent-rules と</text><text x="370" y="131" font-size="13.5" text-anchor="middle" fill="#fff">見比べる</text>
+        <path d="M472 100 H508" stroke="#4a5568" stroke-width="3" marker-end="url(#m-07-1a)"/>
+        <rect x="510" y="50" width="200" height="100" rx="14" fill="url(#g-07-1c)"/>
+        <text x="610" y="88" font-size="21" font-weight="700" text-anchor="middle" fill="#fff">案を出す</text>
+        <text x="610" y="112" font-size="13.5" text-anchor="middle" fill="#fff">ルール・スキル・</text><text x="610" y="131" font-size="13.5" text-anchor="middle" fill="#fff">フックの案にする</text>
+        <path d="M712 100 H748" stroke="#4a5568" stroke-width="3" marker-end="url(#m-07-1a)"/>
+        <rect x="750" y="50" width="200" height="100" rx="14" fill="url(#g-07-1d)"/>
+        <text x="850" y="88" font-size="21" font-weight="700" text-anchor="middle" fill="#fff">届ける</text>
+        <text x="850" y="112" font-size="13.5" text-anchor="middle" fill="#fff">本文を見せてから</text><text x="850" y="131" font-size="13.5" text-anchor="middle" fill="#fff">「送って」で送信</text>
+        <path d="M850 152 V270 H130 V154" fill="none" stroke="#4a5568" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#m-07-1a)"/>
+        <use href="#rk-bot" x="420" y="170" width="90" height="90"/>
+        <text x="524" y="222" font-size="17" font-weight="700" fill="#12224d">来週も、もう一度</text>
+      </svg>
+      <figcaption>図: 読む → 照らす → 案を出す → 届ける、を毎週くり返す</figcaption>
+    </figure>
+
+    <h2>決めること</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>項目</th><th>案</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td class="nowrap">頻度</td><td>毎週月曜の朝 (JST)</td><td>1 か月で十数本なので、週 1 回で足りる。</td></tr>
+          <tr><td class="nowrap">動かす場所</td><td>信頼の承認が済んでいるセッションに向けて、定期実行を発火させる</td><td>新しいセッションは、そのたびに利用者が信頼の確認に答える必要がある。</td></tr>
+          <tr><td class="nowrap">届け方</td><td>ai-agent-rules のセッションへ、本文を見せてから「送って」の後に送る</td><td>外へ出す文面なので、先に見せる。以後の分を全文なしで送ってよいかは、利用者が決める。</td></tr>
+          <tr><td class="nowrap">claude.dev</td><td>環境のネットワーク設定で許可する</td><td>入れなかった 2 本が読める。操作は利用者側。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="backlink"><a class="back-home" href="../../README.html" aria-label="README へ戻る" title="README へ戻る"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z" fill="#fff"/></svg></a></p>
+  </div>
+</footer>
+
+</body>
+</html>
